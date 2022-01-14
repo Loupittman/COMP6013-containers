@@ -1,0 +1,4 @@
+/containers/venv/
+/containers/.idea/
+/containers/test/.pytest_cache/
+/containers/pyvenv.cfg
