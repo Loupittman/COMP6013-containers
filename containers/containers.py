@@ -1,6 +1,7 @@
 from html import escape
 
-from flask import Flask, abort
+
+from flask import Flask, abort, make_response
 from flask.json import dumps, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api, Resource, reqparse
@@ -62,7 +63,10 @@ api.add_resource(ContainerTest, "/containertest/<container_id>")
 def container(container_id):
     c = Container.query.filter_by(container_id=container_id).first()
     if not c:
-        abort(404, f'Container ID {container_id} not found')
+        abort(make_response(jsonify({"code" : "404", "message" : f'Container ID {container_id} not found'}), 404))
 
-    response = jsonify(c.as_dict()).data.decode('UTF-8')
+    response = make_response(jsonify(c.as_dict()).data.decode('UTF-8'))
+    response.mimetype = 'application/json'
     return response
+
+
